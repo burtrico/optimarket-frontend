@@ -1,0 +1,69 @@
+{
+  "name": "optisea",
+  "license": "MIT License",
+  "contributors": [
+    {
+      "name": "platocrat",
+      "email": "platocrat@tuta.io",
+      "url": "https://github.com/platocrat"
+    },
+    {
+      "name": "Burtrico",
+      "url": "https://github.com/burtrico"
+    },
+    {
+      "name": "rumzdev",
+      "url": "https://github.com/rumzdev"
+    }
+  ],
+  "version": "0.1.0",
+  "description": "OptiSea is a white-label OpenSea fork, it's own NFT marketplace on Optimistic Ethereum",
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
+  },
+  "dependencies": {
+    "@types/eth-sig-util": "^2.1.1",
+    "@walletconnect/client": "^1.6.5",
+    "@walletconnect/qrcode-modal": "^1.6.5",
+    "axios": "^0.21.1",
+    "bignumber.js": "^9.0.1",
+    "blockies-ts": "^1.0.0",
+    "eth-sig-util": "^2.5.3",
+    "ethereumjs-util": "^7.0.6",
+    "ethers": "^5.0.17",
+    "node-gyp": "^8.1.0",
+    "prop-types": "^15.7.2",
+    "qr-image": "^3.2.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts-ts": "^4.0.8",
+    "styled-components": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/better-sqlite3": "^5.4.1",
+    "@types/bignumber.js": "^5.0.0",
+    "@types/bn.js": "^4.11.5",
+    "@types/jest": "^24.0.25",
+    "@types/node": "^13.1.6",
+    "@types/prop-types": "^15.7.3",
+    "@types/qr-image": "^3.2.3",
+    "@types/react": "^16.9.51",
+    "@types/react-dom": "^16.9.8",
+    "@types/styled-components": "^5.1.3",
+    "dotenv": "^10.0.0",
+    "typescript": "^3.7.4"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
