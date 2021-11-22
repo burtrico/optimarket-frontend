@@ -1,29 +1,28 @@
 {
-  "name": "walletconnect-example-dapp",
-  "version": "1.6.5",
-  "private": true,
-  "keywords": [
-    "walletconnect",
-    "ethereum",
-    "web3",
-    "crypto"
+  "name": "optisea",
+  "license": "MIT License",
+  "contributors": [
+    {
+      "name": "platocrat",
+      "email": "platocrat@tuta.io",
+      "url": "https://github.com/platocrat"
+    },
+    {
+      "name": "Burtrico",
+      "url": "https://github.com/burtrico"
+    },
+    {
+      "name": "rumzdev",
+      "url": "https://github.com/rumzdev"
+    }
   ],
-  "author": "WalletConnect <walletconnect.org>",
-  "homepage": "https://walletconnect.org",
-  "license": "LGPL-3.0",
+  "version": "0.1.0",
+  "description": "OptiSea is a white-label OpenSea fork, it's own NFT marketplace on Optimistic Ethereum",
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject",
-    "lint": "eslint -c './.eslintrc' --fix './src/**/*{.ts,.tsx}'"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/walletconnect/walletconnect-example-dapp.git"
-  },
-  "bugs": {
-    "url": "https://github.com/walletconnect/walletconnect-example-dapp/issues"
+    "eject": "react-scripts-ts eject"
   },
   "dependencies": {
     "@types/eth-sig-util": "^2.1.1",
@@ -55,17 +54,7 @@
     "@types/react": "^16.9.51",
     "@types/react-dom": "^16.9.8",
     "@types/styled-components": "^5.1.3",
-    "@typescript-eslint/eslint-plugin": "^2.20.0",
-    "@typescript-eslint/parser": "^2.20.0",
-    "eslint-config-prettier": "^6.12.0",
-    "eslint-config-react": "^1.1.7",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
-    "prettier": "^1.19.1",
+    "dotenv": "^10.0.0",
     "typescript": "^3.7.4"
   },
   "eslintConfig": {
