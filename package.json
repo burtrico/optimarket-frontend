@@ -1,5 +1,5 @@
 {
-  "name": "optisea",
+  "name": "optiverse",
   "license": "MIT License",
   "contributors": [
     {
@@ -17,7 +17,7 @@
     }
   ],
   "version": "0.1.0",
-  "description": "OptiSea is a white-label OpenSea fork, it's own NFT marketplace on Optimistic Ethereum",
+  "description": "OptiVerse is a NFT marketplace on Optimistic Ethereum",
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
