@@ -47,13 +47,13 @@ interface IHeaderStyle {
 }
 
 const SAddress = styled.p<IHeaderStyle>`
-  transition: ${transitions.base};
+  transition: ${ transitions.base };
   font-weight: bold;
-  margin: ${({ connected }) => (connected ? "-2px auto 0.7em" : "0")};
+  margin: ${ ({ connected }) => (connected ? "-2px auto 0.7em" : "0") };
 `;
 
 const SDisconnect = styled.div<IHeaderStyle>`
-  transition: ${transitions.button};
+  transition: ${ transitions.button };
   font-size: 12px;
   font-family: monospace;
   position: absolute;
@@ -62,9 +62,9 @@ const SDisconnect = styled.div<IHeaderStyle>`
   opacity: 0.7;
   cursor: pointer;
 
-  opacity: ${({ connected }) => (connected ? 1 : 0)};
-  visibility: ${({ connected }) => (connected ? "visible" : "hidden")};
-  pointer-events: ${({ connected }) => (connected ? "auto" : "none")};
+  opacity: ${ ({ connected }) => (connected ? 1 : 0) };
+  visibility: ${ ({ connected }) => (connected ? "visible" : "hidden") };
+  pointer-events: ${ ({ connected }) => (connected ? "auto" : "none") };
 
   &:hover {
     transform: translateY(-1px);
