@@ -16,20 +16,20 @@ const SLightbox = styled.div<ILightboxStyleProps>`
   width: 100vw;
   height: 100vh;
   margin-left: -50vw;
-  top: ${({ offset }) => (offset ? `-${offset}px` : 0)};
+  top: ${ ({ offset }) => (offset ? `-${ offset }px` : 0) };
   left: 50%;
   z-index: 2;
   will-change: opacity;
-  background-color: ${({ opacity }) => {
+  background-color: ${ ({ opacity }) => {
     let alpha = 0.4;
     if (typeof opacity === "number") {
       alpha = opacity;
     }
-    return `rgba(0, 0, 0, ${alpha})`;
-  }};
-  opacity: ${({ show }) => (show ? 1 : 0)};
-  visibility: ${({ show }) => (show ? "visible" : "hidden")};
-  pointer-events: ${({ show }) => (show ? "auto" : "none")};
+    return `rgba(0, 0, 0, ${ alpha })`;
+  } };
+  opacity: ${ ({ show }) => (show ? 1 : 0) };
+  visibility: ${ ({ show }) => (show ? "visible" : "hidden") };
+  pointer-events: ${ ({ show }) => (show ? "auto" : "none") };
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,12 +60,12 @@ interface ICloseButtonStyleProps {
 }
 
 const SCloseButton = styled.div<ICloseButtonStyleProps>`
-  transition: ${transitions.short};
+  transition: ${ transitions.short };
   position: absolute;
-  width: ${({ size }) => `${size}px`};
-  height: ${({ size }) => `${size}px`};
-  right: ${({ size }) => `${size / 1.6667}px`};
-  top: ${({ size }) => `${size / 1.6667}px`};
+  width: ${ ({ size }) => `${ size }px` };
+  height: ${ ({ size }) => `${ size }px` };
+  right: ${ ({ size }) => `${ size / 1.6667 }px` };
+  top: ${ ({ size }) => `${ size / 1.6667 }px` };
   opacity: 0.5;
   cursor: pointer;
   &:hover {
@@ -75,9 +75,9 @@ const SCloseButton = styled.div<ICloseButtonStyleProps>`
   &:after {
     position: absolute;
     content: " ";
-    height: ${({ size }) => `${size}px`};
+    height: ${ ({ size }) => `${ size }px` };
     width: 2px;
-    background: ${({ color }) => `rgb(${colors[color]})`};
+    background: ${ ({ color }) => `rgb(${ colors[color] })` };
   }
   &:before {
     transform: rotate(45deg);
@@ -92,7 +92,7 @@ const SCard = styled.div`
   width: 100%;
   max-width: 500px;
   padding: 25px;
-  background-color: rgb(${colors.white});
+  background-color: rgb(${ colors.white });
   border-radius: 6px;
   display: flex;
   flex-direction: column;
