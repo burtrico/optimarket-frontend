@@ -163,412 +163,431 @@ const INITIAL_STATE: IAppState = {
   assets: [],
 }
 
-
-
-const App = () => {
+// Hooks
+function useConnector() {
   const [connector, setConnector] = useState<WalletConnect | null>(null)
-  const [accounts, setAccounts] = useState<string[]>([''])
-  const [assets, setAssets] = useState<IAssetData[]>([])
-  const [address, setAddress] = useState<string>('')
+
+  const bridge = 'https://bridge.walletconnect.org'
+  const connector_ = new WalletConnect({ bridge, qrcodeModal: QRCodeModal })
+
+  useEffect(() => {
+    setConnector(connector_)
+  }, [])
+
+  return connector
+}
+
+// Used for `subscribeToEvents()`
+function useSessionData() {
   const [connected, setConnected] = useState<boolean>(false)
+  const [accounts, setAccounts] = useState<string[]>([''])
   const [chainId, setChainId] = useState<number>(0)
+  const [address, setAddress] = useState<string>('')
+
+  useEffect(() => {
+    setConnected(true)
+    setChainId(chainId)
+    setAccounts(accounts)
+    setAddress(address)
+  }, [])
+
+  return [connected, accounts, chainId, address]
+}
+
+
+// Child function components of App
+const connect = async (connector: WalletConnect) => {
+  // check if already connected
+  if (connector != null) {
+    if (!connector.connected) {
+      // create new session
+      await connector.createSession()
+    }
+  } else {
+    return
+  }
+  // subscribe to events
+  return subscribeToEvents()
+}
+
+
+const subscribeToEvents = () => {
+  const connector = useConnector()
+
+  if (!connector) {
+    return
+  }
+
+  connector.on("session_update", async (error, payload) => {
+    console.log(`connector.on("session_update")`)
+
+    if (error) {
+      throw error
+    }
+
+    const { chainId, accounts } = payload.params[0]
+    onSessionUpdate(accounts, chainId)
+  })
+
+  connector.on("connect", (error, payload) => {
+    console.log(`connector.on("connect")`)
+
+    if (error) {
+      throw error
+    }
+
+    onConnect(payload)
+  })
+
+  connector.on("disconnect", (error, payload) => {
+    console.log(`connector.on("disconnect")`)
+
+    if (error) {
+      throw error
+    }
+
+    onDisconnect()
+  })
+
+  if (connector.connected) {
+    const { chainId, accounts } = connector
+    const address = accounts[0]
+
+    useSessionData()
+    onSessionUpdate(accounts, chainId)
+  }
+
+  useEffect(() => {
+    setConnector(connector)
+  }, [])
+  // this.setState({ connector })
+}
+
+// const killSession = async () => {
+//   if (connector) {
+//     connector.killSession()
+//   }
+//   resetApp()
+// }
+
+// const resetApp = async () => {
+//   useEffect(() => {
+//     setConnector(null)
+//     setAccounts([])
+//     setAssets([])
+//     setAddress('')
+//     setConnected(false)
+//     setChainId(0)
+//     setFetching(false)
+//     setShowModal(false)
+//     setPendingRequest(false)
+//     setResult([])
+//   }, [])
+//   // await this.setState({ ...INITIAL_STATE })
+// }
+
+// const onConnect = async (payload: IInternalEvent) => {
+//   const { chainId, accounts } = payload.params[0]
+//   const address = accounts[0]
+
+//   useEffect(() => {
+//     setConnected(true)
+//     setChainId(chainId)
+//     setAccounts(accounts)
+//     setAddress(address)
+//   }, [])
+
+//   // await this.setState({
+//   //   connected: true,
+//   //   chainId,
+//   //   accounts,
+//   //   address,
+//   // })
+//   getAccountAssets()
+// }
+
+// const onDisconnect = async () => {
+//   resetApp()
+// }
+
+// const onSessionUpdate = async (accounts: string[], chainId: number) => {
+//   const address = accounts[0]
+
+//   useEffect(() => {
+//     setChainId(chainId)
+//     setAccounts(accounts)
+//     setAddress(address)
+//   }, [])
+//   // await this.setState({ chainId, accounts, address })
+//   await getAccountAssets()
+// }
+
+// const getAccountAssets = async () => {
+//   useEffect(() => {
+//     setFetching(true)
+//   }, [])
+//   // this.setState({ fetching: true })
+
+//   try {
+//     // get account balances
+//     const assets = await apiGetAccountAssets(address, chainId)
+
+//     useEffect(() => {
+//       setFetching(false)
+//       setAddress(address)
+//       setAssets(assets)
+//     }, [])
+
+//     // await this.setState({ fetching: false, address, assets })
+//   } catch (error) {
+//     console.error(error)
+
+//     useEffect(() => {
+//       setFetching(false)
+//     }, [])
+//     // await this.setState({ fetching: false })
+//   }
+// }
+
+// const toggleModal = () => {
+//   useEffect(() => {
+//     /**
+//      * @todo Confirm that this works!
+//      */
+//     setShowModal(!showModal)
+//   }, [])
+//   // this.setState({ showModal: !this.state.showModal })
+// }
+
+// const sendTransaction = async () => {
+//   // const { connector, address, chainId } = this.state
+
+//   if (!connector) {
+//     return
+//   }
+
+//   // from
+//   const from = address
+
+//   // to
+//   const to = address
+
+//   // nonce
+//   const _nonce = await apiGetAccountNonce(address, chainId)
+//   const nonce = sanitizeHex(convertStringToHex(_nonce))
+
+//   // gasPrice
+//   const gasPrices = await apiGetGasPrices()
+//   const _gasPrice = gasPrices.slow.price
+//   const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)))
+
+//   // gasLimit
+//   const _gasLimit = 21000
+//   const gasLimit = sanitizeHex(convertStringToHex(_gasLimit))
+
+//   // value
+//   const _value = 0
+//   const value = sanitizeHex(convertStringToHex(_value))
+
+//   // data
+//   const data = "0x"
+
+//   // test transaction
+//   const tx: ITxData = {
+//     from,
+//     to,
+//     nonce,
+//     gasPrice,
+//     gasLimit,
+//     value,
+//     data,
+//   }
+
+//   try {
+//     // open modal
+//     toggleModal()
+
+//     // toggle pending request indicator
+//     useEffect(() => {
+//       setPendingRequest(true)
+//     }, [])
+//     // this.setState({ pendingRequest: true })
+
+//     // send transaction
+//     const result = await connector.sendTransaction(tx)
+
+//     // format displayed result
+//     const formattedResult = {
+//       method: "eth_sendTransaction",
+//       txHash: result,
+//       from: address,
+//       to: address,
+//       value: "0 ETH",
+//     }
+
+//     // display result
+//     useEffect(() => {
+//       setConnector(connector)
+//       setPendingRequest(false)
+//       setResult(formattedResult || null)
+//     }, [])
+
+//     // this.setState({
+//     //   connector,
+//     //   pendingRequest: false,
+//     //   result: formattedResult || null,
+//     // })
+//   } catch (error) {
+//     console.error(error)
+
+//     useEffect(() => {
+//       setConnector(connector)
+//       setPendingRequest(false)
+//       setResult(null)
+//     }, [])
+//     // this.setState({ connector, pendingRequest: false, result: null })
+//   }
+// }
+
+// const signMessage = async () => {
+//   // const { connector, address, chainId } = this.state
+
+//   if (!connector) {
+//     return
+//   }
+
+//   // test message
+//   const message = `My email is john@doe.com - ${ new Date().toUTCString() }`
+
+//   // encode message (hex)
+//   const hexMsg = convertUtf8ToHex(message)
+
+//   // eth_sign params
+//   const msgParams = [address, hexMsg]
+
+//   try {
+//     // open modal
+//     toggleModal()
+
+//     // toggle pending request indicator
+//     useEffect(() => {
+//       setPendingRequest(true)
+//     }, [])
+//     // this.setState({ pendingRequest: true })
+
+//     // send message
+//     const result = await connector.signMessage(msgParams)
+
+//     // verify signature
+//     const hash = hashMessage(message)
+//     const valid = await verifySignature(address, result, hash, chainId)
+
+//     // format displayed result
+//     const formattedResult = {
+//       method: "eth_sign",
+//       address,
+//       valid,
+//       result,
+//     }
+
+//     // display result
+//     useEffect(() => {
+//       setConnector(connector)
+//       setPendingRequest(false)
+//       setResult(formattedResult || null)
+//     }, [])
+//     // this.setState({
+//     //   connector,
+//     //   pendingRequest: false,
+//     //   result: formattedResult || null,
+//     // })
+//   } catch (error) {
+//     console.error(error)
+
+//     useEffect(() => {
+//       setConnector(connector)
+//       setPendingRequest(false)
+//       setResult(null)
+//     }, [])
+//     // this.setState({ connector, pendingRequest: false, result: null })
+//   }
+// }
+
+// const signTypedData = async () => {
+//   // const { connector, address, chainId } = this.state
+//   if (!connector) {
+//     return
+//   }
+
+//   const message = JSON.stringify(eip712.example)
+
+//   // eth_signTypedData params
+//   const msgParams = [address, message]
+
+//   try {
+//     // open modal
+//     toggleModal()
+
+//     // toggle pending request indicator
+//     useEffect(() => {
+//       setPendingRequest(true)
+//     }, [])
+//     // this.setState({ pendingRequest: true })
+
+//     // sign typed data
+//     const result = await connector.signTypedData(msgParams)
+
+//     // verify signature
+//     const hash = hashTypedDataMessage(message)
+//     const valid = await verifySignature(address, result, hash, chainId)
+
+//     // format displayed result
+//     const formattedResult = {
+//       method: "eth_signTypedData",
+//       address,
+//       valid,
+//       result,
+//     }
+
+//     // display result
+//     useEffect(() => {
+//       setConnector(connector)
+//       setPendingRequest(false)
+//       setResult(formattedResult || null)
+//     }, [])
+//     // this.setState({
+//     //   connector,
+//     //   pendingRequest: false,
+//     //   result: formattedResult || null,
+//     // })
+//   } catch (error) {
+//     console.error(error)
+
+//     useEffect(() => {
+//       setConnector(connector)
+//       setPendingRequest(false)
+//       setResult(null)
+//     }, [])
+//     // this.setState({ connector, pendingRequest: false, result: null })
+//   }
+// }
+
+
+// App function component
+const App = () => {
+  const connector = useConnector()
+  // const [accounts, setAccounts] = useState<string[]>([''])
+  const [assets, setAssets] = useState<IAssetData[]>([])
+  // const [address, setAddress] = useState<string>('')
+  // const [connected, setConnected] = useState<boolean>(false)
+  // const [chainId, setChainId] = useState<number>(0)
   const [fetching, setFetching] = useState<boolean>(false)
   const [showModal, setShowModal] = useState<boolean>(false)
   const [pendingRequest, setPendingRequest] = useState<boolean>(false)
   const [result, setResult] = useState<any | null>()
 
-  const connect = async () => {
-    // bridge url
-    const bridge = "https://bridge.walletconnect.org"
 
-    // create new connector
-    const connector = new WalletConnect({ bridge, qrcodeModal: QRCodeModal })
 
-    useEffect(() => {
-      // await this.setState({ connector })
-      setConnector(connector)
-    }, [])
-
-    // check if already connected
-    if (!connector.connected) {
-      // create new session
-      await connector.createSession()
-    }
-
-    // subscribe to events
-    subscribeToEvents()
-  }
-  const subscribeToEvents = () => {
-    // const { connector } = this.state
-
-    if (!connector) {
-      return
-    }
-
-    connector.on("session_update", async (error, payload) => {
-      console.log(`connector.on("session_update")`)
-
-      if (error) {
-        throw error
-      }
-
-      const { chainId, accounts } = payload.params[0]
-      onSessionUpdate(accounts, chainId)
-    })
-
-    connector.on("connect", (error, payload) => {
-      console.log(`connector.on("connect")`)
-
-      if (error) {
-        throw error
-      }
-
-      onConnect(payload)
-    })
-
-    connector.on("disconnect", (error, payload) => {
-      console.log(`connector.on("disconnect")`)
-
-      if (error) {
-        throw error
-      }
-
-      onDisconnect()
-    })
-
-    if (connector.connected) {
-      const { chainId, accounts } = connector
-      const address = accounts[0]
-
-      useEffect(() => {
-        setConnected(true)
-        setChainId(chainId)
-        setAccounts(accounts)
-        setAddress(address)
-      }, [])
-      // this.setState({
-      //   connected: true,
-      //   chainId,
-      //   accounts,
-      //   address,
-      // })
-      onSessionUpdate(accounts, chainId)
-    }
-
-    useEffect(() => {
-      setConnector(connector)
-    }, [])
-    // this.setState({ connector })
-  }
-
-  const killSession = async () => {
-    if (connector) {
-      connector.killSession()
-    }
-    resetApp()
-  }
-
-  const resetApp = async () => {
-    useEffect(() => {
-      setConnector(null)
-      setAccounts([])
-      setAssets([])
-      setAddress('')
-      setConnected(false)
-      setChainId(0)
-      setFetching(false)
-      setShowModal(false)
-      setPendingRequest(false)
-      setResult([])
-    }, [])
-    // await this.setState({ ...INITIAL_STATE })
-  }
-
-  const onConnect = async (payload: IInternalEvent) => {
-    const { chainId, accounts } = payload.params[0]
-    const address = accounts[0]
-
-    useEffect(() => {
-      setConnected(true)
-      setChainId(chainId)
-      setAccounts(accounts)
-      setAddress(address)
-    }, [])
-
-    // await this.setState({
-    //   connected: true,
-    //   chainId,
-    //   accounts,
-    //   address,
-    // })
-    getAccountAssets()
-  }
-
-  const onDisconnect = async () => {
-    resetApp()
-  }
-
-  const onSessionUpdate = async (accounts: string[], chainId: number) => {
-    const address = accounts[0]
-
-    useEffect(() => {
-      setChainId(chainId)
-      setAccounts(accounts)
-      setAddress(address)
-    }, [])
-    // await this.setState({ chainId, accounts, address })
-    await getAccountAssets()
-  }
-
-  const getAccountAssets = async () => {
-    useEffect(() => {
-      setFetching(true)
-    }, [])
-    // this.setState({ fetching: true })
-
-    try {
-      // get account balances
-      const assets = await apiGetAccountAssets(address, chainId)
-
-      useEffect(() => {
-        setFetching(false)
-        setAddress(address)
-        setAssets(assets)
-      }, [])
-
-      // await this.setState({ fetching: false, address, assets })
-    } catch (error) {
-      console.error(error)
-
-      useEffect(() => {
-        setFetching(false)
-      }, [])
-      // await this.setState({ fetching: false })
-    }
-  }
-
-  const toggleModal = () => {
-    useEffect(() => {
-      /**
-       * @todo Confirm that this works!
-       */
-      setShowModal(!showModal)
-    }, [])
-    // this.setState({ showModal: !this.state.showModal })
-  }
-
-  const sendTransaction = async () => {
-    // const { connector, address, chainId } = this.state
-
-    if (!connector) {
-      return
-    }
-
-    // from
-    const from = address
-
-    // to
-    const to = address
-
-    // nonce
-    const _nonce = await apiGetAccountNonce(address, chainId)
-    const nonce = sanitizeHex(convertStringToHex(_nonce))
-
-    // gasPrice
-    const gasPrices = await apiGetGasPrices()
-    const _gasPrice = gasPrices.slow.price
-    const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)))
-
-    // gasLimit
-    const _gasLimit = 21000
-    const gasLimit = sanitizeHex(convertStringToHex(_gasLimit))
-
-    // value
-    const _value = 0
-    const value = sanitizeHex(convertStringToHex(_value))
-
-    // data
-    const data = "0x"
-
-    // test transaction
-    const tx: ITxData = {
-      from,
-      to,
-      nonce,
-      gasPrice,
-      gasLimit,
-      value,
-      data,
-    }
-
-    try {
-      // open modal
-      toggleModal()
-
-      // toggle pending request indicator
-      useEffect(() => {
-        setPendingRequest(true)
-      }, [])
-      // this.setState({ pendingRequest: true })
-
-      // send transaction
-      const result = await connector.sendTransaction(tx)
-
-      // format displayed result
-      const formattedResult = {
-        method: "eth_sendTransaction",
-        txHash: result,
-        from: address,
-        to: address,
-        value: "0 ETH",
-      }
-
-      // display result
-      useEffect(() => {
-        setConnector(connector)
-        setPendingRequest(false)
-        setResult(formattedResult || null)
-      }, [])
-
-      // this.setState({
-      //   connector,
-      //   pendingRequest: false,
-      //   result: formattedResult || null,
-      // })
-    } catch (error) {
-      console.error(error)
-
-      useEffect(() => {
-        setConnector(connector)
-        setPendingRequest(false)
-        setResult(null)
-      }, [])
-      // this.setState({ connector, pendingRequest: false, result: null })
-    }
-  }
-
-  const signMessage = async () => {
-    // const { connector, address, chainId } = this.state
-
-    if (!connector) {
-      return
-    }
-
-    // test message
-    const message = `My email is john@doe.com - ${ new Date().toUTCString() }`
-
-    // encode message (hex)
-    const hexMsg = convertUtf8ToHex(message)
-
-    // eth_sign params
-    const msgParams = [address, hexMsg]
-
-    try {
-      // open modal
-      toggleModal()
-
-      // toggle pending request indicator
-      useEffect(() => {
-        setPendingRequest(true)
-      }, [])
-      // this.setState({ pendingRequest: true })
-
-      // send message
-      const result = await connector.signMessage(msgParams)
-
-      // verify signature
-      const hash = hashMessage(message)
-      const valid = await verifySignature(address, result, hash, chainId)
-
-      // format displayed result
-      const formattedResult = {
-        method: "eth_sign",
-        address,
-        valid,
-        result,
-      }
-
-      // display result
-      useEffect(() => {
-        setConnector(connector)
-        setPendingRequest(false)
-        setResult(formattedResult || null)
-      }, [])
-      // this.setState({
-      //   connector,
-      //   pendingRequest: false,
-      //   result: formattedResult || null,
-      // })
-    } catch (error) {
-      console.error(error)
-
-      useEffect(() => {
-        setConnector(connector)
-        setPendingRequest(false)
-        setResult(null)
-      }, [])
-      // this.setState({ connector, pendingRequest: false, result: null })
-    }
-  }
-
-  const signTypedData = async () => {
-    // const { connector, address, chainId } = this.state
-    if (!connector) {
-      return
-    }
-
-    const message = JSON.stringify(eip712.example)
-
-    // eth_signTypedData params
-    const msgParams = [address, message]
-
-    try {
-      // open modal
-      toggleModal()
-
-      // toggle pending request indicator
-      useEffect(() => {
-        setPendingRequest(true)
-      }, [])
-      // this.setState({ pendingRequest: true })
-
-      // sign typed data
-      const result = await connector.signTypedData(msgParams)
-
-      // verify signature
-      const hash = hashTypedDataMessage(message)
-      const valid = await verifySignature(address, result, hash, chainId)
-
-      // format displayed result
-      const formattedResult = {
-        method: "eth_signTypedData",
-        address,
-        valid,
-        result,
-      }
-
-      // display result
-      useEffect(() => {
-        setConnector(connector)
-        setPendingRequest(false)
-        setResult(formattedResult || null)
-      }, [])
-      // this.setState({
-      //   connector,
-      //   pendingRequest: false,
-      //   result: formattedResult || null,
-      // })
-    } catch (error) {
-      console.error(error)
-
-      useEffect(() => {
-        setConnector(connector)
-        setPendingRequest(false)
-        setResult(null)
-      }, [])
-      // this.setState({ connector, pendingRequest: false, result: null })
-    }
-  }
 
   return (
     <SLayout>
@@ -587,11 +606,14 @@ const App = () => {
                 <br />
                 <span>{`v${ process.env.REACT_APP_VERSION }`}</span>
               </h3>
-              <SButtonContainer>
+              {/* <SButtonContainer>
                 <SConnectButton left onClick={connect} fetching={fetching}>
                   {"Connect to WalletConnect"}
                 </SConnectButton>
-              </SButtonContainer>
+              </SButtonContainer> */}
+              <ConnectButton
+                fetching={fetching}
+              />
             </SLanding>
           ) : (
             <SBalances>
