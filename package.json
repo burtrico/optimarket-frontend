@@ -1,5 +1,5 @@
 {
-  "name": "optiverse",
+  "name": "optimarket",
   "license": "MIT License",
   "contributors": [
     {
@@ -17,7 +17,7 @@
     }
   ],
   "version": "0.1.0",
-  "description": "OptiVerse is a NFT marketplace on Optimistic Ethereum",
+  "description": "OptiMarket is a NFT marketplace on Optimistic Ethereum",
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",

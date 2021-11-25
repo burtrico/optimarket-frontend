@@ -1,9 +1,9 @@
-# Optiverse
+# OptiMarket
 A NFT marketplace on Optimistic Ethereum.
 
 ## Contribute
 
-Optiverse welcomes contributors. Regardless of the time you have available, everyone can provide meaningful contributions to the project by submitting bug reports, feature requests or even the smallest of fixes! To submit your contribution, please fork, fix, commit and create a pull-request describing your work in detail.
+OptiMarket welcomes contributors. Regardless of the time you have available, everyone can provide meaningful contributions to the project by submitting bug reports, feature requests or even the smallest of fixes! To submit your contribution, please fork, fix, commit and create a pull-request describing your work in detail.
 
 ## Tech Stack
 * React
