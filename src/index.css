@@ -1,0 +1,534 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(74, 87, 117);
+  /* background-image: url("./images/bg.png"); */
+  background-image: url("https://i.pinimg.com/736x/6b/cf/f5/6bcff5f1c2d4f6b8637200b7132aebc6.jpg");
+  background-attachment: fixed;
+ 
+}
+
+.nftContractButton {
+  color: black;
+  background-color: transparent;
+  padding: 5px;
+  border-color: transparent;
+  font-weight: bold;
+  font-size: medium;
+}
+
+.nftContractButton:hover {
+  color: blue;
+  background-color: transparent;
+  border-color: transparent;
+  padding: 5px;
+  font-weight: bold;
+  font-size: medium;
+}
+
+
+a {
+  color:rgb(138, 138, 138);
+  text-decoration: none;
+}
+a:hover {
+  color:rgb(255, 255, 255);
+  text-decoration: none;
+}
+
+.App {
+  margin-top: 120px;
+}
+
+.authForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+}
+
+.authForm form {
+  margin: 4em auto;
+  width: 50%;
+  background: rgba(255,255,255,0.92);
+  text-align:center;
+}
+.authForm button {
+  background: rgb(195, 0, 255);
+  color: white;
+  padding: 1rem 4rem;
+}
+
+.pageframe {
+  padding: 150px 50px 150px 50px;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.nftImage {
+  width: 200px;
+  height: 200px;
+  max-width: 100%;
+  max-height: auto;
+  border-radius: 15px;
+  border-color: rgb(88, 88, 88);
+  border-width: 2px;
+  border-style: solid;
+}
+
+/*No Clue how to add this to the nftCards yet, check the 
+https://material-ui.com/components/grid/        */
+
+.NavBar {
+  border-color: rgb(255, 255, 255);
+  font-weight: 600;
+  background-color: rgb(37, 37, 37);
+  border-width: 0 0 1px 1px;
+  border-style: solid;
+  border-radius: 0 0 0 15px;
+  width: 700px;
+  padding: 8px 0 10px 10px;
+  position:fixed;
+  top: 0;
+  right: 0;
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, .4);
+}
+
+.title {
+  border-color: rgb(255, 255, 255);
+  background-color: rgb(37, 37, 37);
+  border-width: 0 1px 1px 0;
+  border-style: solid;
+  border-radius: 0 0 15px 0;
+  height: 35px;
+  width: 300px;
+  padding: 5px 0 10px 10px;
+  position:fixed;
+  top: 0;
+  left: 0;
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, .4);
+}
+
+.navlink {
+  display: inline;
+  margin: 2px 15px 10px 0;
+  background-color: transparent;
+}
+
+.navButton {
+  display: inline;
+  margin: 2px 15px 10px 0;
+  color: rgb(138, 138, 138);
+  background-color: transparent;
+  font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+
+
+.navButton:hover {
+  display: inline;
+  margin: 2px 15px 10px 0;
+  color: rgb(0, 0, 0);
+  background-color: white;
+  font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  transition: color .5s, background-color .5s, box-shadow .5s;
+  box-shadow: 0px 0px 5px rgba(221, 219, 219, 0.25);
+
+}
+
+
+
+
+.navBalanceDiv {
+  display: inline;
+  margin: 2px 15px 10px 0;
+  background-color:white;
+  padding: 8px;
+  border-color: rgb(60, 20, 140);
+  border-width: 1px;
+  border-radius: 10px;
+  border-style: solid;
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 1);
+}
+
+.ethBalance {
+  display: inline;
+  color: rgb(60, 20, 140);
+  text-align: left;
+  /* color: rgb(51, 51, 51); */
+  /* font-size: small; */
+  font-weight: 700;
+  padding-left: 15px;
+  padding-bottom: 5px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: url(https://storage.opensea.io/files/6f8e2979d428180222796ff4a33ab929.svg);
+  background-repeat: no-repeat;
+  background-size: 10px;
+  }
+
+
+.nftCard {
+  border-color: rgb(88, 88, 88);
+  border-width: 3px;
+  border-radius: 15px;
+  border-style: solid;
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 1);
+}
+
+
+
+.infoButton {
+  border-color: rgb(255, 255, 255);
+  color: white;
+  font-weight: 600;
+  background-color: rgb(88, 88, 88);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 10px;
+  width: 80px;
+  padding: 4px 0 4px 4px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, .4);
+  transition: color .5s, background-color .5s, box-shadow .5s;
+  /* display: block; */
+  /* float: right; */
+}
+
+.infoButton:hover {
+  border-color: rgb(0, 0, 0);
+  color: rgb(83, 83, 83);
+  font-weight: 600;
+  background-color: rgb(211, 211, 211);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 10px;
+  width: 80px;
+  padding: 4px 0 4px 4px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, .75);
+  transition: color .5s, background-color .5s, box-shadow .5s;
+  /* display: block; */
+  /* float: right; */
+}
+
+
+
+.cardInfoDiv {
+  padding-bottom: 10px;
+  /* width: 100%; */
+}
+
+.infoButtonDiv {
+  padding-top: 5px;
+  float: right;
+}
+
+.addButtonDiv {
+  float: left;
+}
+
+.addButton {
+  border-color: rgb(255, 255, 255);
+  color: white;
+  font-weight: 600;
+  background-color: rgb(37, 37, 37);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 15px;
+  width: 100px;
+  padding: 10px 10px 10px 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, .4);
+  transition: color .5s, background-color .5s, box-shadow .5s;
+  display: block;
+}
+
+.addButton:hover {
+  border-color: rgb(0, 0, 0);
+  color: black;
+  font-weight: 600;
+  background-color: rgb(255, 255, 255);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 15px;
+  width: 100px;
+  padding: 10px 10px 10px 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, .75);
+}
+
+.addButton2 {
+  border-color: rgb(255, 255, 255);
+  color: white;
+  font-weight: 600;
+  background-color: rgb(37, 37, 37);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 15px;
+  width: 150px;
+  padding: 10px 10px 10px 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, .4);
+  transition: color .5s, background-color .5s, box-shadow .5s;
+  display: block;
+}
+
+.addButton2:hover {
+  border-color: rgb(0, 0, 0);
+  color: black;
+  font-weight: 600;
+  background-color: rgb(255, 255, 255);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 15px;
+  width: 150px;
+  padding: 10px 10px 10px 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, .75);
+}
+
+#create-update-toggle {
+  border-color: rgb(255, 255, 255);
+  color: white;
+  font-weight: 600;
+  background-color: rgb(37, 37, 37);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 15px;
+  width: 230px;
+  padding: 5px 5px 5px 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, .4);
+  transition: color .5s, background-color .5s, box-shadow .5s;
+  display: block;
+}
+
+#create-update-toggle:hover {
+  border-color: rgb(0, 0, 0);
+  color: black;
+  font-weight: 600;
+  background-color: rgb(255, 255, 255);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 15px;
+  width: 230px;
+  padding: 5px 5px 5px 5px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, .75);
+}
+
+.formmint{
+  overflow-wrap: break-word; 
+}
+
+.homepage {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: rgb(68, 68, 68);
+  font-size: medium;
+  font-weight: 300;
+  line-height:200%
+}
+
+.headingwhat{
+  margin: 10px auto 10px 0;
+  text-align: center;
+  display: block;
+}
+
+.mintinput {
+  border-color: rgb(0, 0, 0);
+  font-weight: 300;
+  background-color: rgb(199, 199, 199);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 10px;
+  width: 200px;
+  padding: 8px 0 10px 10px;
+  margin: 5px;
+  display: block;
+}
+
+.footer {
+  margin: 75px 35px 0 0;
+  text-align: center;
+  display: block;
+  color: white;
+}
+.openlogo {
+  border-color: rgb(88, 88, 88);
+  border-width: 2px;
+  border-radius: 15px;
+  border-style: solid;
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 1);
+  display: inline;
+}
+
+.cardname {
+  text-align: left;
+  display: block;
+  color: rgb(51, 51, 51);
+  font-size: small;
+  font-weight: 800;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.cardcontract {
+  text-align: left;
+  display: block;
+  color: rgb(51, 51, 51);
+  font-size: small;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.cardprice {
+  text-align: left;
+  display: block;
+  color: rgb(51, 51, 51);
+  font-size: small;
+  font-weight: 800;
+  padding-left: 20px;
+  padding-bottom: 5px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: url(https://storage.opensea.io/files/6f8e2979d428180222796ff4a33ab929.svg);
+  background-repeat: no-repeat;
+  background-size: 10px;
+}
+
+
+
+
+/* .cardInfoDiv {
+  float: left
+} */
+
+
+.lastsale {
+  text-align: left;
+  display: block;
+  color: rgb(109, 108, 108);
+  font-size: small;
+  font-weight: 800;
+  padding-left: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: url(https://storage.opensea.io/files/6f8e2979d428180222796ff4a33ab929.svg);
+  background-repeat: no-repeat;
+  background-size: 10px;
+}
+
+.nftWhat {
+  font-family: 'Inter var',sans-serif;
+  font-weight: 500;
+
+}
+
+.contractDivContainer {
+  display: block;
+  background-color: transparent;
+  /* border-radius: 20px; */
+  width: auto;
+  margin-top: 5%;
+  margin-left: 10%;
+  margin-right: 10%;
+  
+}
+
+.contractDivList {
+  padding: 15px;
+  background-color: rgb(247, 248, 250);
+  border-radius: 20px;
+  width: 50%;
+  margin-top: 5%;
+  margin-right: 0%;
+  float: right;
+  text-align: left;
+  outline: 4px solid rgb(36, 36, 36);
+  outline-offset: 0px;
+  /* overflow-wrap: break-word */
+}
+
+ul {
+  list-style: none;
+  list-style-position: inside;
+  padding-left: 0;
+}
+
+.contractDivForm {
+  padding: 15px;
+  background-color: rgb(247, 248, 250);
+  border-radius: 20px;
+  width: 38%;
+  margin-top: 5%;
+  margin-left: 0%;
+  float: left;
+  text-align: left;
+  outline: 4px solid rgb(36, 36, 36);
+  outline-offset: 0px;
+}
+
+.imgContractList {
+  float: right;
+  max-height: 200px;
+  max-width: 200px;
+}
+
+.mintDiv {
+  background-color: rgb(247, 248, 250);
+  border-radius: 20px;
+  width: 42%;
+  margin-top: 5%;
+  margin-left: 27.5%;
+  float: center;
+  text-align: left;
+  outline: 4px solid rgb(36, 36, 36);
+  outline-offset: 0px;
+  padding: 5px;
+}
+
+.nftContractLink {
+  color: rgb(0, 0, 0);
+  text-shadow: 0px 0.25px 0.25px rgb(25, 25, 119);
+}
+
+/* Popup style */
+.popup-box {
+  position: fixed;
+  background: #00000050;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+ 
+.box {
+  position: relative;
+  width: 70%;
+  margin: 0 auto;
+  height: auto;
+  max-height: 70vh;
+  margin-top: calc(100vh - 85vh - 20px);
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  border: 1px solid #999;
+  overflow: auto;
+}
+ 
+.close-icon {
+  content: 'x';
+  cursor: pointer;
+  position: fixed;
+  right: calc(15% - 30px);
+  top: calc(100vh - 85vh - 33px);
+  background: #ededed;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  line-height: 20px;
+  text-align: center;
+  border: 1px solid #999;
+  font-size: 20px;
+}
+/* End of Popup style */
+
